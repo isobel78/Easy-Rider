@@ -9,9 +9,9 @@ const RouteMap = lazy(() => import("@/components/RouteMap"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Putt — Moped-safe route planner" },
+      { title: "Easy Rider — Moped-friendly route planner" },
       { name: "description", content: "Plan routes that stick to slower roads, built for 49cc mopeds and scooters." },
-      { property: "og:title", content: "Putt — Moped-safe route planner" },
+      { property: "og:title", content: "Easy Rider — Moped-friendly route planner" },
       { property: "og:description", content: "Routes that avoid highways and fast roads for 49cc mopeds." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -62,8 +62,9 @@ function Index() {
     <div className="flex min-h-screen md:h-screen flex-col md:flex-row bg-background text-foreground">
       <aside className="order-2 md:order-1 w-full md:w-[400px] shrink-0 md:overflow-y-auto border-r border-border p-6 space-y-5">
         <div>
-          <h1 className="font-display text-4xl tracking-tight">Putt<span className="text-primary">.</span></h1>
-          <p className="text-sm text-muted-foreground mt-1">Routes for 49cc mopeds — no highways, no fast roads.</p>
+          <div className="mb-3 flex h-1.5 overflow-hidden rounded-full"><span className="flex-1 bg-primary" /><span className="flex-1 bg-card" /><span className="flex-1 bg-stripe" /></div>
+          <h1 className="font-display text-5xl text-primary">Easy Rider</h1>
+          <p className="text-sm text-muted-foreground mt-1 italic">Routes for 49cc mopeds — no highways, no fast roads.</p>
         </div>
         <form onSubmit={go} className="space-y-3">
           <PlaceInput label="Start" text={from} onText={setFrom} onPick={setFromPl} picked={!!fromPl} near={me}
@@ -78,7 +79,7 @@ function Index() {
             <input type="range" min={25} max={45} step={5} value={maxMph}
               onChange={(e) => setMaxMph(+e.target.value)} className="w-full accent-[var(--primary)] mt-2" />
           </label>
-          <button disabled={busy} className="w-full rounded-md bg-primary text-primary-foreground py-3 font-semibold disabled:opacity-60">
+          <button disabled={busy} className="w-full rounded-full bg-stripe text-primary-foreground py-3 font-bold uppercase tracking-widest shadow-md disabled:opacity-60">
             {busy ? "Finding slow roads…" : "Plan moped route"}
           </button>
         </form>
@@ -91,7 +92,7 @@ function Index() {
             <ol className="space-y-2 text-sm">
               {res.steps.map((s, i) => (
                 <li key={i} className="flex gap-3 border-b border-border pb-2">
-                  <span className="text-primary font-mono w-5">{i + 1}</span>
+                  <span className="text-stripe font-bold w-5">{i + 1}</span>
                   <span className="flex-1">{s.text}</span>
                   {s.miles > 0 && <span className="text-muted-foreground font-mono">{s.miles.toFixed(1)}</span>}
                 </li>

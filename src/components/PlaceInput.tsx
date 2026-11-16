@@ -52,7 +52,7 @@ export function PlaceInput(p: {
           else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(hits[active]!); }
           else if (e.key === "Escape") setOpen(false);
         }}
-        className="mt-1 w-full rounded-md border border-input bg-card px-3 py-2.5 text-base text-foreground"
+        className="mt-1 w-full rounded-full border-2 border-input bg-card px-4 px-3 py-2.5 text-base text-foreground"
       />
       {open && hits.length > 0 && (
         <ul role="listbox" className="absolute z-[1000] mt-1 w-full overflow-hidden rounded-md border border-border bg-card shadow-lg">

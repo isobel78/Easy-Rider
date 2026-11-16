@@ -81,17 +81,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Putt" },
+      { title: "Easy Rider" },
       { name: "description", content: "Moped-safe route planner" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Putt" },
+      { property: "og:title", content: "Easy Rider" },
       { property: "og:description", content: "Moped-safe route planner" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Hind:wght@400;600&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Lobster&family=Josefin+Sans:wght@400;600;700&display=swap" },
       {
         rel: "stylesheet",
         href: appCss,

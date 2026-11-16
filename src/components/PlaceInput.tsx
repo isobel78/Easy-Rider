@@ -21,7 +21,7 @@ export function PlaceInput(p: {
     let stale = false;
     const t = setTimeout(async () => {
       try {
-        const r = await search({ data: { q, lat: p.near?.[0], lon: p.near?.[1] } });
+        const r = await search({ data: p.near ? { q, lat: p.near[0], lon: p.near[1] } : { q } });
         if (!stale) { setHits(r); setActive(-1); setOpen(true); }
       } catch { if (!stale) setHits([]); }
     }, 300);

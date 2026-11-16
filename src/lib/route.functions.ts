@@ -9,8 +9,9 @@ async function geocode(q: string) {
   );
   if (!r.ok) throw new Error(`Address lookup failed (${r.status})`);
   const j = (await r.json()) as { lat: string; lon: string; display_name: string }[];
-  if (!j.length) throw new Error(`Couldn't find "${q}"`);
-  return { lat: +j[0].lat, lon: +j[0].lon, name: j[0].display_name };
+  const h = j[0];
+  if (!h) throw new Error(`Couldn't find "${q}"`);
+  return { lat: +h.lat, lon: +h.lon, name: h.display_name };
 }
 
 function decode(str: string, precision = 6): [number, number][] {

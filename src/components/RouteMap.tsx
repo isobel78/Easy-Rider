@@ -23,7 +23,7 @@ export default function RouteMap({ path }: { path: [number, number][] | null }) 
     const line = L.polyline(path, { color, weight: 6, opacity: 0.9 }).addTo(layer.current);
     const dot = (p: [number, number], fill: string) =>
       L.circleMarker(p, { radius: 8, color: "#222", weight: 2, fillColor: fill, fillOpacity: 1 }).addTo(layer.current!);
-    dot(path[0], "#3fbf6f"); dot(path[path.length - 1], "#e5484d");
+    dot(path[0]!, "#3fbf6f"); dot(path[path.length - 1]!, "#e5484d");
     map.current.fitBounds(line.getBounds(), { padding: [40, 40] });
   }, [path]);
   return <div ref={el} className="h-full w-full" />;

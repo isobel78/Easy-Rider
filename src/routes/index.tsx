@@ -39,8 +39,8 @@ function Index() {
   }
 
   return (
-    <div className="flex h-screen flex-col md:flex-row bg-background text-foreground">
-      <aside className="w-full md:w-[400px] shrink-0 overflow-y-auto border-r border-border p-6 space-y-5">
+    <div className="flex min-h-screen md:h-screen flex-col md:flex-row bg-background text-foreground">
+      <aside className="order-2 md:order-1 w-full md:w-[400px] shrink-0 md:overflow-y-auto border-r border-border p-6 space-y-5">
         <div>
           <h1 className="font-display text-4xl tracking-tight">Putt<span className="text-primary">.</span></h1>
           <p className="text-sm text-muted-foreground mt-1">Routes for 49cc mopeds — no highways, no fast roads.</p>
@@ -76,7 +76,7 @@ function Index() {
         )}
         <p className="text-xs text-muted-foreground">Prototype: avoids highways and major roads using OpenStreetMap data. Speed limits aren't mapped everywhere — always follow posted signs.</p>
       </aside>
-      <main className="flex-1 min-h-[50vh]">
+      <main className="order-1 md:order-2 h-[45vh] md:h-auto md:flex-1 sticky top-0 md:static z-0">
         <ClientOnly fallback={<div className="h-full bg-muted" />}>
           <Suspense fallback={<div className="h-full bg-muted" />}>
             <RouteMap path={res?.path ?? null} />

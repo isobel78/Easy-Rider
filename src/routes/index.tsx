@@ -66,12 +66,12 @@ function Index() {
           <p className="text-sm text-muted-foreground mt-1">Routes for 49cc mopeds — no highways, no fast roads.</p>
         </div>
         <form onSubmit={go} className="space-y-3">
-          <PlaceInput label="Start" text={from} onText={setFrom} onPick={setFromPl} near={me}
+          <PlaceInput label="Start" text={from} onText={setFrom} onPick={setFromPl} picked={!!fromPl} near={me}
             placeholder="Business, place or address"
             action={<button type="button" onClick={() => locate(true)} disabled={locating}
               className="normal-case tracking-normal text-primary font-semibold disabled:opacity-60">
               {locating ? "Locating…" : "◎ Use my location"}</button>} />
-          <PlaceInput label="Destination" text={to} onText={setTo} onPick={setToPl} near={me}
+          <PlaceInput label="Destination" text={to} onText={setTo} onPick={setToPl} picked={!!toPl} near={me}
             placeholder="e.g. Starbucks, Piedmont Park" />
           <label className="block text-xs uppercase tracking-wider text-muted-foreground">
             Max road speed: <span className="text-foreground font-semibold">{maxMph} mph</span>

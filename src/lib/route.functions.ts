@@ -51,7 +51,7 @@ export const searchPlaces = createServerFn({ method: "GET" })
     );
     if (!r.ok) throw new Error(`Place search failed (${r.status})`);
     const j = (await r.json()) as {
-      features: { geometry: { coordinates: [number, number] }; properties: Record<string, string | undefined> }[];
+      features: { geometry: { coordinates: [number, number] }; properties: { name?: string; housenumber?: string; street?: string; city?: string; county?: string; state?: string } }[];
     };
     return j.features.map((f) => {
       const p = f.properties;

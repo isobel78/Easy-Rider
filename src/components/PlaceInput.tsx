@@ -7,7 +7,7 @@ type Hit = Place & { name: string; detail: string };
 
 export function PlaceInput(p: {
   label: string; placeholder: string; text: string; onText: (v: string) => void;
-  onPick: (pl: Place | null) => void; near: [number, number] | null; action?: React.ReactNode;
+  onPick: (pl: Place | null) => void; picked: boolean; near: [number, number] | null; action?: React.ReactNode;
 }) {
   const search = useServerFn(searchPlaces);
   const [hits, setHits] = useState<Hit[]>([]);
@@ -15,7 +15,7 @@ export function PlaceInput(p: {
   const [active, setActive] = useState(-1);
   const skip = useRef(false);
   useEffect(() => {
-    if (skip.current) { skip.current = false; return; }
+    if (skip.current || p.picked) { skip.current = false; setOpen(false); return; }
     const q = p.text.trim();
     if (q.length < 2) { setHits([]); return; }
     let stale = false;

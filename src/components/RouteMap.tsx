@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-export default function RouteMap({ path }: { path: [number, number][] | null }) {
+export default function RouteMap({ path, me }: { path: [number, number][] | null; me: [number, number] | null }) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const layer = useRef<L.LayerGroup | null>(null);
@@ -15,6 +15,14 @@ export default function RouteMap({ path }: { path: [number, number][] | null }) 
     layer.current = L.layerGroup().addTo(map.current);
     return () => { map.current?.remove(); map.current = null; };
   }, []);
+  const meLayer = useRef<L.CircleMarker | null>(null);
+  useEffect(() => {
+    if (!map.current || !me) return;
+    meLayer.current?.remove();
+    meLayer.current = L.circleMarker(me, { radius: 7, color: "#fff", weight: 3, fillColor: "#2b7fff", fillOpacity: 1 })
+      .bindTooltip("You are here").addTo(map.current);
+    if (!path?.length) map.current.setView(me, 14);
+  }, [me]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!map.current || !layer.current) return;
     layer.current.clearLayers();

@@ -1,6 +1,7 @@
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { PlaceInput, type Place } from "@/components/PlaceInput";
 import { planRoute } from "@/lib/route.functions";
 
 const RouteMap = lazy(() => import("@/components/RouteMap"));
@@ -26,14 +27,33 @@ function Index() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [maxMph, setMaxMph] = useState(40);
+  const [fromPl, setFromPl] = useState<Place | null>(null);
+  const [toPl, setToPl] = useState<Place | null>(null);
+  const [me, setMe] = useState<[number, number] | null>(null);
+  const [locating, setLocating] = useState(false);
   const [res, setRes] = useState<Result | null>(null);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
 
+  function locate(useAsStart: boolean) {
+    if (!navigator.geolocation) { setErr("Your browser can't share your location"); return; }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const c: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+        setMe(c); setLocating(false);
+        if (useAsStart) { setFrom("My location"); setFromPl({ lat: c[0], lon: c[1], label: "My location" }); }
+      },
+      () => { setLocating(false); if (useAsStart) setErr("Couldn't get your location — check location permission"); },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  }
+  useEffect(() => { locate(false); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   async function go(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true); setErr("");
-    try { setRes(await plan({ data: { from, to, maxMph } })); }
+    try { setRes(await plan({ data: { from: fromPl ?? from, to: toPl ?? to, maxMph } })); }
     catch (x) { setErr(x instanceof Error ? x.message : "Something went wrong"); }
     finally { setBusy(false); }
   }
@@ -46,8 +66,13 @@ function Index() {
           <p className="text-sm text-muted-foreground mt-1">Routes for 49cc mopeds — no highways, no fast roads.</p>
         </div>
         <form onSubmit={go} className="space-y-3">
-          <Field label="Start" value={from} onChange={setFrom} placeholder="e.g. Piedmont Park, Atlanta" />
-          <Field label="Destination" value={to} onChange={setTo} placeholder="e.g. Decatur Square, GA" />
+          <PlaceInput label="Start" text={from} onText={setFrom} onPick={setFromPl} picked={!!fromPl} near={me}
+            placeholder="Business, place or address"
+            action={<button type="button" onClick={() => locate(true)} disabled={locating}
+              className="normal-case tracking-normal text-primary font-semibold disabled:opacity-60">
+              {locating ? "Locating…" : "◎ Use my location"}</button>} />
+          <PlaceInput label="Destination" text={to} onText={setTo} onPick={setToPl} picked={!!toPl} near={me}
+            placeholder="e.g. Starbucks, Piedmont Park" />
           <label className="block text-xs uppercase tracking-wider text-muted-foreground">
             Max road speed: <span className="text-foreground font-semibold">{maxMph} mph</span>
             <input type="range" min={25} max={45} step={5} value={maxMph}
@@ -79,7 +104,7 @@ function Index() {
       <main className="order-1 md:order-2 h-[45vh] md:h-auto md:flex-1 sticky top-0 md:static z-0">
         <ClientOnly fallback={<div className="h-full bg-muted" />}>
           <Suspense fallback={<div className="h-full bg-muted" />}>
-            <RouteMap path={res?.path ?? null} />
+            <RouteMap path={res?.path ?? null} me={me} />
           </Suspense>
         </ClientOnly>
       </main>
@@ -87,15 +112,6 @@ function Index() {
   );
 }
 
-function Field(p: { label: string; value: string; onChange: (v: string) => void; placeholder: string }) {
-  return (
-    <label className="block text-xs uppercase tracking-wider text-muted-foreground">
-      {p.label}
-      <input required value={p.value} onChange={(e) => p.onChange(e.target.value)} placeholder={p.placeholder}
-        className="mt-1 w-full rounded-md border border-input bg-card px-3 py-2.5 text-base normal-case tracking-normal text-foreground" />
-    </label>
-  );
-}
 function Stat({ n, u }: { n: string; u: string }) {
   return <div><div className="font-display text-3xl">{n}</div><div className="text-xs text-muted-foreground uppercase">{u}</div></div>;
 }

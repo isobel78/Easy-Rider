@@ -30,15 +30,52 @@ function decode(str: string, precision = 6): [number, number][] {
   return out;
 }
 
-export const planRoute = createServerFn({ method: "POST" })
-  .inputValidator((d: { from: string; to: string; maxMph: number }) => {
-    if (!d.from?.trim() || !d.to?.trim()) throw new Error("Enter a start and end");
-    if (d.from.length > 200 || d.to.length > 200) throw new Error("Address too long");
-    const maxMph = Math.min(55, Math.max(15, Number(d.maxMph) || 40));
-    return { from: d.from.trim(), to: d.to.trim(), maxMph };
+type Place = { lat: number; lon: number; label: string };
+type Spot = string | Place;
+const isPlace = (v: unknown): v is Place =>
+  typeof v === "object" && v !== null && Number.isFinite((v as Place).lat) && Number.isFinite((v as Place).lon);
+const resolve = async (s: Spot) =>
+  typeof s === "string" ? geocode(s) : { lat: s.lat, lon: s.lon, name: s.label };
+
+export const searchPlaces = createServerFn({ method: "GET" })
+  .inputValidator((d: { q: string; lat?: number; lon?: number }) => {
+    const q = String(d.q ?? "").trim().slice(0, 120);
+    return { q, lat: Number.isFinite(d.lat) ? d.lat : undefined, lon: Number.isFinite(d.lon) ? d.lon : undefined };
   })
   .handler(async ({ data }) => {
-    const [a, b] = await Promise.all([geocode(data.from), geocode(data.to)]);
+    if (data.q.length < 2) return [];
+    const bias = data.lat != null && data.lon != null ? `&lat=${data.lat}&lon=${data.lon}` : "";
+    const r = await fetch(
+      `https://photon.komoot.io/api/?limit=6&lang=en&q=${encodeURIComponent(data.q)}${bias}`,
+      { headers: { "User-Agent": UA } },
+    );
+    if (!r.ok) throw new Error(`Place search failed (${r.status})`);
+    const j = (await r.json()) as {
+      features: { geometry: { coordinates: [number, number] }; properties: Record<string, string | undefined> }[];
+    };
+    return j.features.map((f) => {
+      const p = f.properties;
+      const street = [p.housenumber, p.street].filter(Boolean).join(" ");
+      const detail = [street, p.city ?? p.county, p.state].filter(Boolean).join(", ");
+      const name = p.name ?? street ?? p.city ?? "Unnamed place";
+      return { lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0], name, detail, label: detail ? `${name}, ${detail}` : name };
+    });
+  });
+
+export const planRoute = createServerFn({ method: "POST" })
+  .inputValidator((d: { from: Spot; to: Spot; maxMph: number }) => {
+    const clean = (v: Spot): Spot => {
+      if (isPlace(v)) return { lat: v.lat, lon: v.lon, label: String(v.label ?? "").slice(0, 200) };
+      const t = String(v ?? "").trim();
+      if (!t) throw new Error("Enter a start and destination");
+      if (t.length > 200) throw new Error("Address too long");
+      return t;
+    };
+    const maxMph = Math.min(55, Math.max(15, Number(d.maxMph) || 40));
+    return { from: clean(d.from), to: clean(d.to), maxMph };
+  })
+  .handler(async ({ data }) => {
+    const [a, b] = await Promise.all([resolve(data.from), resolve(data.to)]);
     const kph = Math.round(data.maxMph * 1.609);
     const r = await fetch("https://valhalla1.openstreetmap.de/route", {
       method: "POST",

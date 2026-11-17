@@ -4,7 +4,9 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { PlaceInput, type Place } from "@/components/PlaceInput";
 import { planRoute } from "@/lib/route.functions";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, LocateFixed, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, LocateFixed, MapPin, Sparkles, Navigation, ExternalLink } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { navigationLinks } from "@/lib/navigation-links";
 import scooter from "@/assets/metropolitan-side.jpeg.asset.json";
 
 const RouteMap = lazy(() => import("@/components/RouteMap"));
@@ -37,6 +39,8 @@ function Index() {
   const [res, setRes] = useState<Result | null>(null);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
+  const [navigationOpen, setNavigationOpen] = useState(false);
+  const links = res ? navigationLinks(res.path) : null;
 
   function locate(useAsStart: boolean) {
     if (!navigator.geolocation) { setErr("Your browser can't share your location"); return; }
@@ -104,11 +108,14 @@ function Index() {
             <div className="flex gap-6">
               <Stat n={res.miles.toFixed(1)} u="miles" /><Stat n={String(res.minutes)} u="min" />
             </div>
+            {links && <Button variant="outline" className="w-full" onClick={() => setNavigationOpen(true)}>
+              <Navigation /> Driving directions <ExternalLink />
+            </Button>}
             <ol className="space-y-2 text-sm">
               {res.steps.map((s, i) => (
                 <li key={i} className="flex gap-3 border-b border-border pb-2">
                   <span className="text-stripe font-bold w-5">{i + 1}</span>
-                  <span className="flex-1">{s.text}</span>
+                  <Button variant="link" className="h-auto flex-1 justify-start whitespace-normal p-0 text-left text-foreground" onClick={() => setNavigationOpen(true)}>{s.text}</Button>
                   {s.miles > 0 && <span className="text-muted-foreground font-mono">{s.miles.toFixed(1)}</span>}
                 </li>
               ))}
@@ -126,6 +133,16 @@ function Index() {
         <div className="map-label pointer-events-none absolute bottom-5 left-5 z-[500] flex items-center gap-2 rounded-full border border-foreground bg-card px-4 py-2 text-xs font-bold"><span className="size-2 rounded-full bg-primary" /> Life in the slow lane</div>
       </main>
       </div>
+      <Dialog open={navigationOpen} onOpenChange={setNavigationOpen}>
+        <DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-md">
+          <DialogTitle>Open driving directions</DialogTitle>
+          <DialogDescription>Google Maps and Apple Maps calculate their own route, not the Easy Rider route. They may use roads over 40 mph. Check the route and posted speed limits before riding.</DialogDescription>
+          {links && <div className="flex flex-col gap-3">
+            <Button asChild><a href={links.google} target="_blank" rel="noopener noreferrer"><ExternalLink /> Google Maps</a></Button>
+            <Button asChild variant="outline"><a href={links.apple} target="_blank" rel="noopener noreferrer"><ExternalLink /> Apple Maps</a></Button>
+          </div>}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

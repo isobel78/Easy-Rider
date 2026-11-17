@@ -1,0 +1,3 @@
+- [x] Add clear controls to both place searches.
+- [x] Add directions handoff to Google Maps and Apple Maps, with a speed-limit warning.
+- [x] Verify clear controls and navigation links; external Maps navigation requires user validation on the published app.

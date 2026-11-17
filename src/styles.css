@@ -32,7 +32,7 @@
 @theme inline {
   --color-stripe: var(--stripe);
   --color-mint: var(--mint);
-  --font-display: "Lobster", cursive;
+  --font-display: "Yellowtail", cursive;
   --font-sans: "Josefin Sans", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -78,25 +78,25 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.95 0.035 88);
+  --background: oklch(0.97 0.025 90);
   --route: oklch(0.56 0.19 28);
-  --foreground: oklch(0.3 0.045 45);
+  --foreground: oklch(0.25 0.025 175);
   --card: oklch(0.985 0.015 90);
   --card-foreground: oklch(0.3 0.045 45);
   --popover: oklch(0.985 0.015 90);
   --popover-foreground: oklch(0.3 0.045 45);
-  --primary: oklch(0.56 0.085 180);
+  --primary: oklch(0.48 0.09 178);
   --primary-foreground: oklch(0.98 0.02 90);
   --secondary: oklch(0.86 0.06 175);
   --secondary-foreground: oklch(0.3 0.045 45);
   --muted: oklch(0.91 0.03 85);
-  --muted-foreground: oklch(0.5 0.04 50);
+  --muted-foreground: oklch(0.46 0.025 175);
   --accent: oklch(0.9 0.05 172);
   --accent-foreground: oklch(0.3 0.045 45);
   --destructive: oklch(0.56 0.19 28);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.84 0.04 80);
-  --input: oklch(0.8 0.045 78);
+  --input: oklch(0.77 0.05 175);
   --ring: oklch(0.56 0.085 180);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -113,6 +113,9 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --stripe: oklch(0.56 0.19 28);
   --mint: oklch(0.82 0.08 175);
+  --logo-fill: oklch(0.97 0.025 90);
+  --mod-yellow: oklch(0.86 0.15 90);
+  --shadow-ride: 3px 4px 0 var(--foreground);
 }
 
 .dark {
@@ -148,6 +151,9 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --logo-fill: oklch(0.97 0.025 90);
+  --mod-yellow: oklch(0.86 0.15 90);
+  --shadow-ride: 3px 4px 0 var(--foreground);
 }
 
 @layer base {
@@ -160,3 +166,51 @@
     color: var(--color-foreground);
   }
 }
+
+.easy-rider { letter-spacing: 0; }
+.scooter-header { height: 184px; background: var(--mint); }
+.rider-logo {
+  font-size: 72px;
+  line-height: 1;
+  color: var(--logo-fill);
+  -webkit-text-stroke: 1.5px var(--foreground);
+  paint-order: stroke fill;
+  text-shadow: 2px 3px 0 var(--foreground);
+  transform: rotate(-4deg);
+  padding-right: 12px;
+}
+.italian-stripe {
+  display: inline-block;
+  width: 30px;
+  height: 10px;
+  border: 1px solid var(--foreground);
+  background: linear-gradient(to right, var(--primary) 33%, var(--card) 33% 66%, var(--stripe) 66%);
+}
+.scooter-art { width: 340px; margin-right: 48px; }
+.scooter-art img { position: relative; z-index: 1; transform: rotate(-5deg); }
+.scooter-stamp {
+  position: absolute; right: -45px; bottom: 24px; z-index: 2;
+  width: 78px; height: 78px; display: grid; place-content: center;
+  border: 2px solid var(--foreground); border-radius: 50%;
+  background: var(--mod-yellow); font-weight: 700; text-align: center;
+  transform: rotate(12deg); line-height: 1.15;
+}
+.mod-flower { position: absolute; left: -35px; top: 22px; color: var(--stripe); transform: rotate(12deg); }
+.mod-flower svg { width: 48px; height: 48px; stroke-width: 1.5; }
+.ride-button { box-shadow: var(--shadow-ride); border: 2px solid var(--foreground); transition: transform 150ms, box-shadow 150ms; }
+.ride-button:hover { transform: translate(1px, 1px); box-shadow: 2px 3px 0 var(--foreground); }
+.leaflet-container { font-family: var(--font-sans); }
+.leaflet-bar { border-radius: 8px !important; border-color: var(--foreground) !important; box-shadow: var(--shadow-ride) !important; overflow: hidden; }
+.leaflet-bar a { background: var(--card) !important; color: var(--foreground) !important; }
+@media (max-width: 767px) {
+  .scooter-header { height: 144px; padding-left: 20px; padding-right: 12px; }
+  .rider-logo { font-size: 48px; }
+  .scooter-header p { font-size: 12px; }
+  .scooter-header > div:first-child { flex-shrink: 0; }
+  .scooter-art { width: 150px; margin-right: 0; margin-left: 10px; }
+  .scooter-stamp { width: 48px; height: 48px; font-size: 10px; right: 0; bottom: 15px; }
+  .mod-flower { left: 2px; top: 14px; }
+  .mod-flower svg { width: 24px; height: 24px; }
+}
+@media (max-width: 360px) { .scooter-art { width: 100px; } }
+@media (prefers-reduced-motion: reduce) { .ride-button { transition: none; } }

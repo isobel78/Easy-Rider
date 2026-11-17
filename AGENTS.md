@@ -31,3 +31,4 @@ use the editor.
 
 - Keep the scooter identity in a shared top band above the planner and map, so the brand is visible on phones without burying the map.
 - Use imported asset pointers for supplied scooter photography and CSS-treated live text for the app logo, so artwork stays exact and lettering remains accessible.
+- Build external navigation URLs from the completed route endpoints in a browser-safe helper; provider apps recalculate routes, so warn before handoff rather than claiming speed-limit preservation.

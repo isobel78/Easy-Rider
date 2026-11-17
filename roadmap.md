@@ -1,0 +1,3 @@
+- [ ] Add clear controls to both place searches.
+- [ ] Add directions handoff to Google Maps and Apple Maps, with a speed-limit warning.
+- [ ] Verify clear controls and navigation links.

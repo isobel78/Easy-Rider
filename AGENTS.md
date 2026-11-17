@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep the scooter identity in a shared top band above the planner and map, so the brand is visible on phones without burying the map.
+- Use imported asset pointers for supplied scooter photography and CSS-treated live text for the app logo, so artwork stays exact and lettering remains accessible.

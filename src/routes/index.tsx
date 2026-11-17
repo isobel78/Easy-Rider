@@ -3,6 +3,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { lazy, Suspense, useEffect, useState } from "react";
 import { PlaceInput, type Place } from "@/components/PlaceInput";
 import { planRoute } from "@/lib/route.functions";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, LocateFixed, MapPin, Sparkles } from "lucide-react";
+import scooter from "@/assets/metropolitan-side.jpeg.asset.json";
 
 const RouteMap = lazy(() => import("@/components/RouteMap"));
 
@@ -59,19 +62,31 @@ function Index() {
   }
 
   return (
-    <div className="flex min-h-screen md:h-screen flex-col md:flex-row bg-background text-foreground">
-      <aside className="order-2 md:order-1 w-full md:w-[400px] shrink-0 md:overflow-y-auto border-r border-border p-6 space-y-5">
-        <div>
-          <div className="mb-3 flex h-1.5 overflow-hidden rounded-full"><span className="flex-1 bg-primary" /><span className="flex-1 bg-card" /><span className="flex-1 bg-stripe" /></div>
-          <h1 className="font-display text-5xl text-primary">Easy Rider</h1>
-          <p className="text-sm text-muted-foreground mt-1 italic">Routes for 49cc mopeds — no highways, no fast roads.</p>
+    <div className="easy-rider flex min-h-screen md:h-screen flex-col bg-background text-foreground">
+      <header className="scooter-header relative flex shrink-0 items-center justify-between overflow-hidden border-b-2 border-foreground px-6 md:px-10">
+        <div className="relative z-10">
+          <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase"><span className="italian-stripe" /> The slow-road club</div>
+          <h1 className="rider-logo font-display">Easy Rider</h1>
+          <p className="mt-2 text-sm font-semibold">Little scooter. Big adventure.</p>
+        </div>
+        <div className="scooter-art relative self-stretch" aria-hidden="true">
+          <span className="mod-flower"><Sparkles /></span>
+          <img src={scooter.url} alt="" className="h-full w-full object-contain mix-blend-multiply" />
+          <span className="scooter-stamp">Ciao,<br />let’s go!</span>
+        </div>
+      </header>
+      <div className="flex min-h-0 flex-1 flex-col md:flex-row">
+      <aside className="order-2 md:order-1 w-full md:w-[380px] shrink-0 md:overflow-y-auto border-r-2 border-border p-6 space-y-5">
+        <div className="flex items-center justify-between border-b border-border pb-4">
+          <h2 className="text-xl font-bold">Where to, rider?</h2>
+          <MapPin className="size-5 text-stripe" aria-hidden="true" />
         </div>
         <form onSubmit={go} className="space-y-3">
           <PlaceInput label="Start" text={from} onText={setFrom} onPick={setFromPl} picked={!!fromPl} near={me}
             placeholder="Business, place or address"
-            action={<button type="button" onClick={() => locate(true)} disabled={locating}
-              className="normal-case tracking-normal text-primary font-semibold disabled:opacity-60">
-              {locating ? "Locating…" : "◎ Use my location"}</button>} />
+            action={<Button variant="ghost" size="sm" type="button" onClick={() => locate(true)} disabled={locating}
+              className="h-7 px-1 normal-case text-primary font-semibold">
+              <LocateFixed />{locating ? "Locating…" : "Use my location"}</Button>} />
           <PlaceInput label="Destination" text={to} onText={setTo} onPick={setToPl} picked={!!toPl} near={me}
             placeholder="e.g. Starbucks, Piedmont Park" />
           <label className="block text-xs uppercase tracking-wider text-muted-foreground">
@@ -79,9 +94,9 @@ function Index() {
             <input type="range" min={25} max={45} step={5} value={maxMph}
               onChange={(e) => setMaxMph(+e.target.value)} className="w-full accent-[var(--primary)] mt-2" />
           </label>
-          <button disabled={busy} className="w-full rounded-full bg-stripe text-primary-foreground py-3 font-bold uppercase tracking-widest shadow-md disabled:opacity-60">
-            {busy ? "Finding slow roads…" : "Plan moped route"}
-          </button>
+          <Button variant="destructive" disabled={busy} className="ride-button h-12 w-full rounded-full text-base font-bold">
+            {busy ? "Finding slow roads…" : "Plan moped route"}<ArrowRight />
+          </Button>
         </form>
         {err && <p className="rounded-md bg-destructive/10 text-destructive p-3 text-sm">{err}</p>}
         {res && (
@@ -100,15 +115,17 @@ function Index() {
             </ol>
           </div>
         )}
-        <p className="text-xs text-muted-foreground">Prototype: avoids highways and major roads using OpenStreetMap data. Speed limits aren't mapped everywhere — always follow posted signs.</p>
+         <p className="border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">Prototype: avoids highways and major roads using OpenStreetMap data. Speed limits aren't mapped everywhere — always follow posted signs.</p>
       </aside>
-      <main className="order-1 md:order-2 h-[45vh] md:h-auto md:flex-1 sticky top-0 md:static z-0">
+      <main aria-label="Route map" className="relative order-1 md:order-2 h-[38vh] min-h-[260px] md:h-auto md:flex-1 z-0">
         <ClientOnly fallback={<div className="h-full bg-muted" />}>
           <Suspense fallback={<div className="h-full bg-muted" />}>
             <RouteMap path={res?.path ?? null} me={me} />
           </Suspense>
         </ClientOnly>
+        <div className="map-label pointer-events-none absolute bottom-5 left-5 z-[500] flex items-center gap-2 rounded-full border border-foreground bg-card px-4 py-2 text-xs font-bold"><span className="size-2 rounded-full bg-primary" /> Life in the slow lane</div>
       </main>
+      </div>
     </div>
   );
 }

@@ -49,10 +49,10 @@ export function PlaceInput(p: {
           if (!open || !hits.length) return;
           if (e.key === "ArrowDown") { e.preventDefault(); setActive((a) => (a + 1) % hits.length); }
           else if (e.key === "ArrowUp") { e.preventDefault(); setActive((a) => (a <= 0 ? hits.length - 1 : a - 1)); }
-          else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(hits[active]!); }
+          else if (e.key === "Enter" && active >= 0) { const hit = hits[active]; if (hit) { e.preventDefault(); pick(hit); } }
           else if (e.key === "Escape") setOpen(false);
         }}
-        className="mt-1 w-full rounded-full border-2 border-input bg-card px-4 px-3 py-2.5 text-base text-foreground"
+        className="mt-1 w-full rounded-full border-2 border-input bg-card px-4 py-3 text-base text-foreground outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
       />
       {open && hits.length > 0 && (
         <ul role="listbox" className="absolute z-[1000] mt-1 w-full overflow-hidden rounded-md border border-border bg-card shadow-lg">

@@ -200,6 +200,8 @@
 .ride-button { box-shadow: var(--shadow-ride); border: 2px solid var(--foreground); transition: transform 150ms, box-shadow 150ms; }
 .ride-button:hover { transform: translate(1px, 1px); box-shadow: 2px 3px 0 var(--foreground); }
 .leaflet-container { font-family: var(--font-sans); }
+.rider-marker { background: var(--card); border: 2px solid var(--foreground); border-radius: 50%; box-shadow: var(--shadow-ride); }
+.rider-direction { display: grid; width: 30px; height: 30px; place-items: center; color: var(--primary); font-size: 24px; line-height: 1; }
 .leaflet-bar { border-radius: 8px !important; border-color: var(--foreground) !important; box-shadow: var(--shadow-ride) !important; overflow: hidden; }
 .leaflet-bar a { background: var(--card) !important; color: var(--foreground) !important; }
 @media (max-width: 767px) {

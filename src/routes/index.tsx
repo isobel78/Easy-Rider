@@ -1,6 +1,6 @@
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { PlaceInput, type Place } from "@/components/PlaceInput";
 import { planRoute } from "@/lib/route.functions";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ import { ArrowRight, LocateFixed, MapPin, Sparkles, Navigation, ExternalLink } f
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { navigationLinks } from "@/lib/navigation-links";
 import scooter from "@/assets/metropolitan-side.jpeg.asset.json";
+import { useLiveNavigation } from "@/hooks/use-live-navigation";
+import { NavigationPanel } from "@/components/NavigationPanel";
 
 const RouteMap = lazy(() => import("@/components/RouteMap"));
 
@@ -41,6 +43,11 @@ function Index() {
   const [busy, setBusy] = useState(false);
   const [navigationOpen, setNavigationOpen] = useState(false);
   const links = res ? navigationLinks(res.path) : null;
+  const navigation = useLiveNavigation(res);
+  const mapRegion = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (navigation.active && window.matchMedia("(max-width: 767px)").matches) mapRegion.current?.scrollIntoView({ block: "start" });
+  }, [navigation.active]);
 
   function locate(useAsStart: boolean) {
     if (!navigator.geolocation) { setErr("Your browser can't share your location"); return; }
@@ -86,6 +93,7 @@ function Index() {
           <MapPin className="size-5 text-stripe" aria-hidden="true" />
         </div>
         <form onSubmit={go} className="space-y-3">
+          <fieldset disabled={navigation.active} className="space-y-3 disabled:opacity-60">
           <PlaceInput label="Start" text={from} onText={setFrom} onPick={setFromPl} picked={!!fromPl} near={me}
             placeholder="Business, place or address"
             action={<Button variant="ghost" size="sm" type="button" onClick={() => locate(true)} disabled={locating}
@@ -101,10 +109,15 @@ function Index() {
           <Button variant="destructive" disabled={busy} className="ride-button h-12 w-full rounded-full text-base font-bold">
             {busy ? "Finding slow roads…" : "Plan moped route"}<ArrowRight />
           </Button>
+          </fieldset>
         </form>
         {err && <p className="rounded-md bg-destructive/10 text-destructive p-3 text-sm">{err}</p>}
+        {navigation.error && <p role="alert" className="rounded-md bg-destructive/10 text-destructive p-3 text-sm">{navigation.error}</p>}
+        {navigation.arrived && <p role="status" className="border-b border-primary py-3 font-bold text-primary">You’ve arrived. Ride complete!</p>}
         {res && (
           <div className="space-y-3">
+            {!navigation.active && <Button className="h-12 w-full" onClick={navigation.start}><Navigation />Start navigation</Button>}
+            <p className="text-xs leading-relaxed text-muted-foreground">Follow the highlighted route. Speed limits are not verified; check posted signs. GPS and screen-awake support require this app to stay open.</p>
             <div className="flex gap-6">
               <Stat n={res.miles.toFixed(1)} u="miles" /><Stat n={String(res.minutes)} u="min" />
             </div>
@@ -124,12 +137,13 @@ function Index() {
         )}
          <p className="border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">Prototype: avoids highways and major roads using OpenStreetMap data. Speed limits aren't mapped everywhere — always follow posted signs.</p>
       </aside>
-      <main aria-label="Route map" className="relative order-1 md:order-2 h-[38vh] min-h-[260px] md:h-auto md:flex-1 z-0">
+      <main ref={mapRegion} aria-label="Route map" className={`relative order-1 md:order-2 min-h-[260px] md:h-auto md:flex-1 z-0 ${navigation.active ? "h-[65vh] min-h-[460px]" : "h-[38vh]"}`}>
         <ClientOnly fallback={<div className="h-full bg-muted" />}>
           <Suspense fallback={<div className="h-full bg-muted" />}>
-            <RouteMap path={res?.path ?? null} me={me} />
+            <RouteMap path={res?.path ?? null} me={navigation.active ? navigation.fix?.position ?? me : me} navigating={navigation.active} heading={navigation.fix?.heading ?? null} follow={navigation.follow} onPan={() => navigation.setFollow(false)} />
           </Suspense>
         </ClientOnly>
+        {navigation.active && <NavigationPanel navigation={navigation} instruction={res?.steps[navigation.progress?.nextIndex ?? 0]?.text ?? "Follow the highlighted route"} />}
         <div className="map-label pointer-events-none absolute bottom-5 left-5 z-[500] flex items-center gap-2 rounded-full border border-foreground bg-card px-4 py-2 text-xs font-bold"><span className="size-2 rounded-full bg-primary" /> Life in the slow lane</div>
       </main>
       </div>

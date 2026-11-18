@@ -97,8 +97,8 @@ export const planRoute = createServerFn({ method: "POST" })
       path: decode(leg.shape),
       miles: j.trip.summary.length as number,
       minutes: Math.round(j.trip.summary.time / 60),
-      steps: (leg.maneuvers as { instruction: string; length: number }[]).map((m) => ({
-        text: m.instruction, miles: m.length,
+      steps: (leg.maneuvers as { instruction: string; length: number; begin_shape_index: number }[]).map((m) => ({
+        text: m.instruction, miles: m.length, beginIndex: m.begin_shape_index,
       })),
     };
   });

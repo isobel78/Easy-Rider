@@ -76,14 +76,11 @@ function Index() {
     <div className="easy-rider flex min-h-screen md:h-screen flex-col bg-background text-foreground">
       <header className="scooter-header relative flex shrink-0 items-center justify-between overflow-hidden border-b-2 border-foreground px-6 md:px-10">
         <div className="relative z-10">
-          <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase"><span className="italian-stripe" /> The slow-road club</div>
           <h1 className="rider-logo font-display">Easy Rider</h1>
-          <p className="mt-2 text-sm font-semibold">Little scooter. Big adventure.</p>
         </div>
         <div className="scooter-art relative self-stretch" aria-hidden="true">
           <span className="mod-flower"><Sparkles /></span>
-          <img src={scooter.url} alt="" className="h-full w-full object-contain mix-blend-multiply" />
-          <span className="scooter-stamp">Ciao,<br />let’s go!</span>
+          <img src={scooter.url} alt="" className="h-full w-full object-contain" />
         </div>
       </header>
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">

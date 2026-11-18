@@ -79,7 +79,7 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(0.97 0.025 90);
-  --route: oklch(0.56 0.19 28);
+  --route: oklch(0.62 0.17 350);
   --foreground: oklch(0.25 0.025 175);
   --card: oklch(0.985 0.015 90);
   --card-foreground: oklch(0.3 0.045 45);
@@ -93,7 +93,7 @@
   --muted-foreground: oklch(0.46 0.025 175);
   --accent: oklch(0.9 0.05 172);
   --accent-foreground: oklch(0.3 0.045 45);
-  --destructive: oklch(0.56 0.19 28);
+  --destructive: oklch(0.62 0.17 350);
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.84 0.04 80);
   --input: oklch(0.77 0.05 175);
@@ -111,7 +111,7 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --stripe: oklch(0.56 0.19 28);
+  --stripe: oklch(0.62 0.17 350);
   --mint: oklch(0.82 0.08 175);
   --logo-fill: oklch(0.97 0.025 90);
   --mod-yellow: oklch(0.86 0.15 90);
@@ -187,13 +187,10 @@
   background: linear-gradient(to right, var(--primary) 33%, var(--card) 33% 66%, var(--stripe) 66%);
 }
 .scooter-art { width: 340px; margin-right: 48px; }
-.scooter-art img { position: relative; z-index: 1; transform: rotate(-5deg); }
-.scooter-stamp {
-  position: absolute; right: -45px; bottom: 24px; z-index: 2;
-  width: 78px; height: 78px; display: grid; place-content: center;
-  border: 2px solid var(--foreground); border-radius: 50%;
-  background: var(--mod-yellow); font-weight: 700; text-align: center;
-  transform: rotate(12deg); line-height: 1.15;
+.scooter-art img {
+  position: relative; z-index: 1; transform: rotate(-5deg);
+  mix-blend-mode: multiply;
+  filter: grayscale(1) contrast(1.9) brightness(1.12) sepia(0.35) hue-rotate(130deg) saturate(1.4);
 }
 .mod-flower { position: absolute; left: -35px; top: 22px; color: var(--stripe); transform: rotate(12deg); }
 .mod-flower svg { width: 48px; height: 48px; stroke-width: 1.5; }

@@ -4,10 +4,10 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { PlaceInput, type Place } from "@/components/PlaceInput";
 import { planRoute } from "@/lib/route.functions";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, LocateFixed, MapPin, Sparkles, Navigation, ExternalLink } from "lucide-react";
+import { ArrowRight, LocateFixed, MapPin, Navigation, ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { navigationLinks } from "@/lib/navigation-links";
-import scooter from "@/assets/metropolitan-side.jpeg.asset.json";
+import scooter from "@/assets/girl-scooter.png.asset.json";
 import { useLiveNavigation } from "@/hooks/use-live-navigation";
 import { NavigationPanel } from "@/components/NavigationPanel";
 
@@ -79,8 +79,7 @@ function Index() {
           <h1 className="rider-logo font-display">Easy Rider</h1>
         </div>
         <div className="scooter-art relative self-stretch" aria-hidden="true">
-          <span className="mod-flower"><Sparkles /></span>
-          <img src={scooter.url} alt="" className="h-full w-full object-contain" />
+          <img src={scooter.url} alt="" className="h-full w-full object-contain object-bottom" />
         </div>
       </header>
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">

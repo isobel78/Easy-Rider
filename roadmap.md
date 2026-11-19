@@ -3,3 +3,6 @@
 - [x] Verify clear controls and navigation links; external Maps navigation requires user validation on the published app.
 - [x] Add live GPS turn guidance, route following, voice prompts, and screen wake lock.
 - [x] Verify navigation progress, GPS failure, arrival, cleanup, and phone layout; physical-device wake lock and voice playback need a stationary phone check.
+- [x] Simplify header (logo + scooter only) and switch red accents to pink.
+- [ ] Restyle site with pastel palette from the lighter inspiration image (pink sky, tan, teal, cream, yellow).
+- [ ] New header: girl-riding-scooter illustration in 1960s poster style with large Easy Rider lettering.

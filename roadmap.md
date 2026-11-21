@@ -6,3 +6,4 @@
 - [x] Simplify header (logo + scooter only) and switch red accents to pink.
 - [x] Restyle site with pastel palette from the lighter inspiration image (pink sky, tan, teal, cream, yellow).
 - [x] New header: girl-riding-scooter illustration in 1960s poster style with large Easy Rider lettering.
+- [ ] Compact header with prominent script title and transparent scooter artwork; verify phone and desktop layouts.

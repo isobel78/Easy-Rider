@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, LocateFixed, MapPin, Navigation, ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { navigationLinks } from "@/lib/navigation-links";
-import scooter from "@/assets/girl-scooter.png.asset.json";
+import scooter from "@/assets/girl-scooter-transparent.png.asset.json";
 import { useLiveNavigation } from "@/hooks/use-live-navigation";
 import { NavigationPanel } from "@/components/NavigationPanel";
 

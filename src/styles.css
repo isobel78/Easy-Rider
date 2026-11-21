@@ -169,7 +169,7 @@
 }
 
 .easy-rider { letter-spacing: 0; }
-.scooter-header { height: 200px; background: var(--header-bg); }
+.scooter-header { height: 128px; background: var(--header-bg); }
 .rider-logo {
   font-size: 84px;
   line-height: 1;
@@ -180,7 +180,7 @@
   transform: rotate(-4deg);
   padding-right: 12px;
 }
-.scooter-art { width: 240px; margin-right: 40px; }
+.scooter-art { width: 110px; flex-shrink: 0; margin-right: 16px; padding: 6px 0; }
 .scooter-art img { position: relative; z-index: 1; }
 .ride-button { box-shadow: var(--shadow-ride); border: 2px solid var(--foreground); transition: transform 150ms, box-shadow 150ms; }
 .ride-button:hover { transform: translate(1px, 1px); box-shadow: 2px 3px 0 var(--foreground); }
@@ -190,10 +190,14 @@
 .leaflet-bar { border-radius: 8px !important; border-color: var(--foreground) !important; box-shadow: var(--shadow-ride) !important; overflow: hidden; }
 .leaflet-bar a { background: var(--card) !important; color: var(--foreground) !important; }
 @media (max-width: 767px) {
-  .scooter-header { height: 160px; padding-left: 20px; padding-right: 12px; }
+  .scooter-header { height: 104px; padding-left: 20px; padding-right: 12px; }
   .rider-logo { font-size: 52px; }
   .scooter-header > div:first-child { flex-shrink: 0; }
-  .scooter-art { width: 130px; margin-right: 0; margin-left: 10px; }
+  .scooter-art { width: 76px; margin-right: 0; margin-left: 10px; }
 }
-@media (max-width: 360px) { .scooter-art { width: 100px; } }
+@media (max-width: 360px) {
+  .scooter-header { padding-left: 12px; padding-right: 8px; }
+  .rider-logo { font-size: 48px; }
+  .scooter-art { width: 60px; margin-left: 6px; }
+}
 @media (prefers-reduced-motion: reduce) { .ride-button { transition: none; } }

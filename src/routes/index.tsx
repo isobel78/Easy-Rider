@@ -75,11 +75,11 @@ function Index() {
   return (
     <div className="easy-rider flex min-h-screen md:h-screen flex-col bg-background text-foreground">
       <header className="scooter-header relative flex shrink-0 items-center justify-start overflow-hidden border-b-2 border-foreground px-6 md:px-10">
-        <div className="relative z-10">
+        <div className="scooter-brand relative z-10">
           <h1 className="rider-logo font-display">Easy Rider</h1>
-        </div>
-        <div className="scooter-art relative self-stretch" aria-hidden="true">
-          <img src={scooter.url} alt="" className="h-full w-full object-contain object-bottom" />
+          <div className="scooter-art relative self-stretch" aria-hidden="true">
+            <img src={scooter.url} alt="" className="h-full w-full object-contain object-bottom" />
+          </div>
         </div>
       </header>
       <div className="flex min-h-0 flex-1 flex-col md:flex-row">

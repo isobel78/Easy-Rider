@@ -103,7 +103,7 @@ function Index() {
               onChange={(e) => setMaxMph(+e.target.value)} className="w-full accent-[var(--primary)] mt-2" />
           </label>
           <Button variant="destructive" disabled={busy} className="ride-button h-12 w-full rounded-full text-base font-bold">
-            {busy ? "Finding slow roads…" : "Plan moped route"}<ArrowRight />
+            {busy ? "Finding slow roads…" : "Plan scooter route"}<ArrowRight />
           </Button>
           </fieldset>
         </form>

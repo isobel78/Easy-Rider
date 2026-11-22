@@ -181,7 +181,7 @@
   padding-right: 12px;
 }
 .scooter-brand { display: inline-flex; align-items: center; flex-shrink: 0; }
-.scooter-art { width: 110px; flex-shrink: 0; margin-left: 10px; padding: 6px 0; }
+.scooter-art { width: 88px; height: 112px; flex-shrink: 0; margin-left: 10px; }
 .scooter-art img { position: relative; z-index: 1; }
 .ride-button { box-shadow: var(--shadow-ride); border: 2px solid var(--foreground); transition: transform 150ms, box-shadow 150ms; }
 .ride-button:hover { transform: translate(1px, 1px); box-shadow: 2px 3px 0 var(--foreground); }
@@ -194,11 +194,11 @@
   .scooter-header { height: 104px; padding-left: 20px; padding-right: 12px; }
   .rider-logo { font-size: 52px; }
   .scooter-brand { flex-shrink: 0; }
-  .scooter-art { width: 76px; margin-right: 0; margin-left: 10px; }
+  .scooter-art { width: 69px; height: 88px; margin-right: 0; margin-left: 10px; }
 }
 @media (max-width: 360px) {
   .scooter-header { padding-left: 12px; padding-right: 8px; }
   .rider-logo { font-size: 48px; }
-  .scooter-art { width: 60px; margin-left: 6px; }
+  .scooter-art { width: 60px; height: 78px; margin-left: 6px; }
 }
 @media (prefers-reduced-motion: reduce) { .ride-button { transition: none; } }

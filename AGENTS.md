@@ -34,3 +34,5 @@ use the editor.
 - Build external navigation URLs from the completed route endpoints in a browser-safe helper; provider apps recalculate routes, so warn before handoff rather than claiming speed-limit preservation.
 - Match live GPS fixes to the existing route with Turf and Valhalla maneuver shape indices; never silently reroute or imply posted-speed verification.
 - Keep GPS, wake lock, and speech lifecycle in the live-navigation hook; release resources on stop, arrival, and unmount and reacquire wake lock on visibility return.
+- Give header artwork explicit responsive dimensions so intrinsic image height cannot exceed the compact header.
+- Keep home-screen support manifest-only with local artwork-derived icons and root head tags; no app-shell service worker because offline navigation is not supported.

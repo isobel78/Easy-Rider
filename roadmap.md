@@ -7,4 +7,7 @@
 - [x] Restyle site with pastel palette from the lighter inspiration image (pink sky, tan, teal, cream, yellow).
 - [x] New header: girl-riding-scooter illustration in 1960s poster style with large Easy Rider lettering.
 - [x] Compact header with prominent script title and transparent scooter artwork; verify phone and desktop layouts.
-- [x] Position the scooter rider immediately to the right of the Easy Rider logo; verify desktop and phone layouts.- [x] Group logo and rider in one brand block so the rider stays beside the lettering.
+- [x] Position the scooter rider immediately to the right of the Easy Rider logo; verify desktop and phone layouts.
+- [x] Group logo and rider in one brand block so the rider stays beside the lettering.
+- [x] Fix desktop header artwork cropping and verify phone and desktop layouts.
+- [x] Add iOS and Android home-screen metadata and icons (online-only); actual installation needs a published-site phone check.

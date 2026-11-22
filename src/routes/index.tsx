@@ -77,7 +77,7 @@ function Index() {
       <header className="scooter-header relative flex shrink-0 items-center justify-start overflow-hidden border-b-2 border-foreground px-6 md:px-10">
         <div className="scooter-brand relative z-10">
           <h1 className="rider-logo font-display">Easy Rider</h1>
-          <div className="scooter-art relative self-stretch" aria-hidden="true">
+          <div className="scooter-art relative" aria-hidden="true">
             <img src={scooter.url} alt="" className="h-full w-full object-contain object-bottom" />
           </div>
         </div>

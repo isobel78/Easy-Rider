@@ -74,7 +74,7 @@ function Index() {
 
   return (
     <div className="easy-rider flex min-h-screen md:h-screen flex-col bg-background text-foreground">
-      <header className="scooter-header relative flex shrink-0 items-center justify-between overflow-hidden border-b-2 border-foreground px-6 md:px-10">
+      <header className="scooter-header relative flex shrink-0 items-center justify-start overflow-hidden border-b-2 border-foreground px-6 md:px-10">
         <div className="relative z-10">
           <h1 className="rider-logo font-display">Easy Rider</h1>
         </div>
